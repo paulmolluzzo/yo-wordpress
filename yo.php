@@ -81,4 +81,32 @@ function yo_callback() {
 
 add_filter('query_vars', 'yo_callback' );
 
+// Send Yo when creating a new post
+
+function yo_all() {
+    $api_key = get_option('yo_api_key');
+    $url = 'http://api.justyo.co/yoall/';
+    $data = array('api_token' => $api_key);
+
+    $options = array(
+        'http' => array(
+            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method'  => 'POST',
+            'content' => http_build_query($data),
+        ),
+    );
+    $context  = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+}
+
+function send_yo_on_save( $post_id ) {
+
+    if (wp_is_post_revision($post_id)){
+        return;
+    }
+    yo_all();
+}
+
+add_action( 'save_post', 'send_yo_on_save' );
+
 ?>
