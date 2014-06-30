@@ -36,6 +36,20 @@ function install_yo () {
 
 register_activation_hook( __FILE__, 'install_yo' );
 
+// Add Yo API key to DB
+
+function print_yo_field()
+{
+    $value = get_option('yo_api_key');
+    echo '<input type="text" id="yo_api_key" name="yo_api_key" value="' . $value . '" />';
+}
+
+function register_yo_setting() {
+    register_setting( 'general', 'yo_api_key');
+    add_settings_field( 'yo_api_key', 'Yo API Key', 'print_yo_field', 'general');
+}
+add_action( 'admin_init', 'register_yo_setting' );
+
 // Add filter for Yo callback
 function yo_callback() {
     $yoser = $_GET['username'];
