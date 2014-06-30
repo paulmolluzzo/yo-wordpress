@@ -32,6 +32,7 @@ function install_yo () {
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
     dbDelta( $sql );
+    add_option('yo_api_key', '');
 }
 
 register_activation_hook( __FILE__, 'install_yo' );
