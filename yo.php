@@ -14,7 +14,6 @@ License: MIT
 */
 
 // Create the DB table for the Yo Subscribers
-
 function install_yo () {
     global $wpdb;
 
@@ -37,7 +36,6 @@ function install_yo () {
 register_activation_hook( __FILE__, 'install_yo' );
 
 // Add Yo API key to DB
-
 function print_yo_field()
 {
     $value = get_option('yo_api_key');
@@ -81,7 +79,6 @@ function yo_callback() {
 add_filter('query_vars', 'yo_callback' );
 
 // Send Yo when creating a new post
-
 function yo_all() {
     $api_key = get_option('yo_api_key');
     $url = 'http://api.justyo.co/yoall/';
@@ -99,7 +96,6 @@ function yo_all() {
 }
 
 function send_yo_on_save( $post_id ) {
-
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
         return;
     if (false !== wp_is_post_revision($post_id)){
