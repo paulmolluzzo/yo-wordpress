@@ -13,7 +13,6 @@ Author URI: http://paul.molluzzo.com/
 License: MIT
 */
 
-
 // Create the DB table for the Yo Subscribers
 
 function install_yo () {
@@ -101,10 +100,14 @@ function yo_all() {
 
 function send_yo_on_save( $post_id ) {
 
-    if (wp_is_post_revision($post_id)){
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+        return;
+    if (false !== wp_is_post_revision($post_id)){
         return;
     }
-    yo_all();
+    if ($_POST['post_type'] == 'post'){
+        yo_all();
+    }
 }
 
 add_action( 'save_post', 'send_yo_on_save' );
