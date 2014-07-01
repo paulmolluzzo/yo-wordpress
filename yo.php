@@ -35,18 +35,48 @@ function install_yo () {
 
 register_activation_hook( __FILE__, 'install_yo' );
 
-// Add Yo API key to DB
-function print_yo_field()
-{
-    $value = get_option('yo_api_key');
-    echo '<input type="text" id="yo_api_key" name="yo_api_key" value="' . $value . '" />';
-}
+// Add page with Yo Subscribers
 
 function register_yo_setting() {
     register_setting( 'general', 'yo_api_key');
-    add_settings_field( 'yo_api_key', 'Yo API Key', 'print_yo_field', 'general');
 }
+
 add_action( 'admin_init', 'register_yo_setting' );
+
+function yo_page_content() {
+    global $wpdb;
+    $value = get_option('yo_api_key');
+    $table = $wpdb->prefix . "yoscribers";
+    $all_yosers = $wpdb->get_results("SELECT * FROM $table");
+
+    echo '<div class="wrap">';
+    echo '<h2>Yo Wordpress</h2>';
+    echo '<p>If you want to send a Yo when you make a new post, grab a <a href="http://api.justyo.co">Yo API Key</a> and enter it here:';
+    echo '<form method="post" action="options.php">';
+    echo settings_fields( 'general' );
+    echo '<label style="padding-right:5px">Enter Yo API Key:</label>';
+    echo '<input type="text" id="yo_api_key" name="yo_api_key" value="' . $value . '" size="40" style="padding:5px" />';
+    echo submit_button('Save Yo API Key');
+    echo '</form>';
+    echo '<h2>Yo Subscribers</h2>';
+    echo '<p>Below is a list of your Yo Subscribers and how often they\'ve Yo\'d you. These are the people who will receive a Yo when you make a new post.</p>';
+    echo '<table class="wp-list-table widefat fixed users" cellspacing="0"><thead><tr><th scope="col" class="manage-column" style="">Yo Subscriber</th><th scope="col" class="manage-column" style="">Yo Count</th><th scope="col" class="manage-column" style="">Last Yo\'d</th></tr></thead><tbody id="the-list" data-wp-lists="list:user">';
+    foreach($all_yosers as $yoser){
+        echo '<tr>';
+        echo '<td class="username column-username">'.$yoser->name.'</td>';
+        echo '<td class="email column-email">'.$yoser->yo_count.'</td>';
+        echo '<td class="posts">'.date('h:m M d, Y', strtotime($yoser->time)).'</td>';
+        echo '</tr>';
+    }
+    echo '</tbody></table>';
+    echo '</div>';
+}
+
+function add_yo_page() {
+    add_plugins_page( 'Yo Wordpress', 'Yo Wordpress', 'read', 'yo-wordpress', 'yo_page_content');
+}
+
+add_action('admin_menu', 'add_yo_page');
 
 // Add filter for Yo callback
 function yo_callback() {
