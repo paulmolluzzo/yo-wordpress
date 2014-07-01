@@ -65,7 +65,7 @@ function yo_page_content() {
         echo '<tr>';
         echo '<td class="username column-username">'.$yoser->name.'</td>';
         echo '<td class="email column-email">'.$yoser->yo_count.'</td>';
-        echo '<td class="posts">'.date('h:m M d, Y', strtotime($yoser->time)).'</td>';
+        echo '<td class="posts">'.$yoser->time.'</td>';
         echo '</tr>';
     }
     echo '</tbody></table>';
