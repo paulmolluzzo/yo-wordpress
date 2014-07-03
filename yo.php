@@ -1,14 +1,14 @@
 <?php
 /**
- * @package Yo_Wordpress
- * @version 1.0
+ * @package Yo
+ * @version 1.1
  */
 /*
-Plugin Name: Yo Wordpress
+Plugin Name: Yo
 Plugin URI: 
 Description: This is a simple integration of the Yo service for Wordpress. It will track Yo subscribers and allow you to send a Yo when you make a new Post.
 Author: Paul Molluzzo
-Version: 1.0
+Version: 1.1
 Author URI: http://paul.molluzzo.com/
 License: MIT
 */
@@ -50,7 +50,7 @@ function yo_page_content() {
     $all_yosers = $wpdb->get_results("SELECT * FROM $table");
 
     echo '<div class="wrap">';
-    echo '<h2>Yo Wordpress</h2>';
+    echo '<h2>Yo</h2>';
     echo '<p>If you want to send a Yo when you make a new post, grab a <a href="http://api.justyo.co">Yo API Key</a> and enter it here:';
     echo '<form method="post" action="options.php">';
     echo settings_fields( 'general' );
@@ -58,7 +58,7 @@ function yo_page_content() {
     echo '<input type="text" id="yo_api_key" name="yo_api_key" value="' . $value . '" size="40" style="padding:5px" />';
     echo submit_button('Save Yo API Key');
     echo '</form>';
-    echo '<h2>Yo Subscribers</h2>';
+    echo '<h2>Yo</h2>';
     echo '<p>Below is a list of your Yo Subscribers and how often they\'ve Yo\'d you. These are the people who will receive a Yo when you make a new post.</p>';
     echo '<table class="wp-list-table widefat fixed users" cellspacing="0"><thead><tr><th scope="col" class="manage-column" style="">Yo Subscriber</th><th scope="col" class="manage-column" style="">Yo Count</th><th scope="col" class="manage-column" style="">Last Yo\'d</th></tr></thead><tbody id="the-list" data-wp-lists="list:user">';
     foreach($all_yosers as $yoser){
@@ -73,7 +73,7 @@ function yo_page_content() {
 }
 
 function add_yo_page() {
-    add_plugins_page( 'Yo Wordpress', 'Yo Wordpress', 'read', 'yo-wordpress', 'yo_page_content');
+    add_plugins_page( 'Yo', 'Yo', 'read', 'yo', 'yo_page_content');
 }
 
 add_action('admin_menu', 'add_yo_page');
@@ -106,7 +106,7 @@ function yo_callback() {
     }
 }
 
-add_filter('query_vars', 'yo_callback' );
+add_action('plugins_loaded', 'yo_callback' );
 
 // Send Yo when creating a new post
 function yo_all() {
