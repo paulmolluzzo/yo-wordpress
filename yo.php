@@ -1,14 +1,14 @@
 <?php
 /**
  * @package Yo
- * @version 1.1
+ * @version 1.2
  */
 /*
 Plugin Name: Yo
 Plugin URI: 
 Description: This is a simple integration of the Yo service for Wordpress. It will track Yo subscribers and allow you to send a Yo when you make a new Post.
 Author: Paul Molluzzo
-Version: 1.1
+Version: 1.2
 Author URI: http://paul.molluzzo.com/
 License: MIT
 */
@@ -125,17 +125,12 @@ function yo_all() {
     $result = file_get_contents($url, false, $context);
 }
 
-function send_yo_on_save( $post_id ) {
-    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
-        return;
-    if (false !== wp_is_post_revision($post_id)){
-        return;
-    }
-    if ($_POST['post_type'] == 'post'){
+function send_yo_on_publish( $new_status, $old_status, $post ) {
+    if ( $new_status == 'publish' && $new_status != $old_status ) {
         yo_all();
     }
 }
 
-add_action( 'save_post', 'send_yo_on_save' );
+add_action( 'transition_post_status', 'send_yo_on_publish', 10, 3 );
 
 ?>
