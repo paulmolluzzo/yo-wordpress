@@ -38,7 +38,7 @@ register_activation_hook( __FILE__, 'install_yo' );
 // Add page with Yo Subscribers
 
 function register_yo_setting() {
-    register_setting( 'general', 'yo_api_key');
+    register_setting( 'yogeneral', 'yo_api_key');
 }
 
 add_action( 'admin_init', 'register_yo_setting' );
@@ -53,7 +53,7 @@ function yo_page_content() {
     echo '<h2>Yo</h2>';
     echo '<p>If you want to send a Yo when you make a new post, grab a <a href="http://api.justyo.co">Yo API Key</a> and enter it here:';
     echo '<form method="post" action="options.php">';
-    echo settings_fields( 'general' );
+    echo settings_fields( 'yogeneral' );
     echo '<label style="padding-right:5px">Enter Yo API Key:</label>';
     echo '<input type="text" id="yo_api_key" name="yo_api_key" value="' . $value . '" size="40" style="padding:5px" />';
     echo submit_button('Save Yo API Key');
