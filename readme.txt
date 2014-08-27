@@ -4,7 +4,7 @@ Donate link:
 Tags: yo
 Requires at least: 3.0.1
 Tested up to: 3.9.1
-Stable tag: 1.2
+Stable tag: 1.3
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
@@ -48,6 +48,10 @@ Did you set your homepage as the callback URL with Yo? If not, send them an emai
 
 == Changelog ==
 
+= 1.3 =
+
+Yos now attach the link of the post.
+
 = 1.2 =
 
 Yos only sent on publishing a new, non-private post.
@@ -61,6 +65,10 @@ Fix for breaking query_vars error
 Initial Release
 
 == Upgrade Notice ==
+
+= 1.3 =
+
+Yos now attach the link of the post.
 
 = 1.2 =
 
